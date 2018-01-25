@@ -1,17 +1,25 @@
-from Adafruit_BME280 import *
+import smbus2
+import bme280
 import time
 
-sensor = BME280(mode=BME280_OSAMPLE_8)
+port = 1
+address = 0x76
+bus = smbus2.SMBus(port)
+
+bme280.load_calibration_params(bus, address)
+
+# the sample method will take a single reading and return a
+# compensated_reading object
+data = bme280.sample(bus, address)
 
 # Altitude in meters to calculate sea-level pressure
-altitude = 93
+altitude = 27
 
-degrees = sensor.read_temperature()
-pascals = sensor.read_pressure()
-hectopascals = pascals / 100
+degrees = data.temperature
+hectopascals = data.pressure
 # Adjust pressure to sea level
 hectopascals = hectopascals*(1-(0.0065 * altitude)/(degrees + 0.0065 * altitude + 273.15))**(-5.257)
-humidity = sensor.read_humidity()
+humidity = data.humidity
 timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
 print 'Timestamp = %s'%timestamp + ', Temp = {0:0.3f} deg C'.format(degrees) + ', Pressure = {0:0.2f} hPa'.format(hectopascals) + ', Humidity = {0:0.2f} %'.format(humidity)

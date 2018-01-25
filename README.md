@@ -2,7 +2,7 @@
 
 (Original project: https://github.com/ofalvai/raspi-weather)
 
-BME280 temperature/humidity/pressure sensor logger and browser dashboard for the Raspberry Pi. Based on [Adafruit's BME280 Python library](https://github.com/adafruit/Adafruit_Python_BME280).
+BME280 temperature/humidity/pressure sensor logger and browser dashboard for the Raspberry Pi. Based on [BME280 Python library](https://github.com/rm-hull/bme280).
 
 ![Screenshot](/public/images/screenshot.png?raw=true)
 
@@ -25,7 +25,7 @@ cd raspi-weather
 npm install
 ```
 
-Install Adafruit's BME280 Python library [according to their instructions](https://github.com/adafruit/Adafruit_Python_BME280.git).
+Install rm-hull's BME280 Python library [according to their instructions](https://github.com/rm-hull/bme280).
 
 Edit your sudo crontab with `sudo crontab -e` (yes, it needs to run as root to access GPIO, use at your own risk), and add this line:
 
@@ -35,7 +35,7 @@ Edit your sudo crontab with `sudo crontab -e` (yes, it needs to run as root to a
 
 ...assuming you want to take measurements every 30 minutes, and cloned into `/home/pi`.
 
-Connect your BME280 sensor to the Pi, copy Adafruit_BME280.py in sensors and set the correct BME280 default address.
+Connect your BME280 sensor to the Pi, port 1 address 76 (on rpi 3 it's top left i2c port of GPIO)
 
 You can test both scripts by running `sudo sensor_scripts/current.py` and `sudo sensor_scripts/logger.py`. The latter will create the sqlite database file in the project root and log the first measurement.
 
